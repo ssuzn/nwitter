@@ -25,7 +25,7 @@ const Home = ({ userObj }) => {
     event.preventDefault();
     let attachmentUrl = ""; // 사진 없는 글만 nweet
     // 사진 첨부시
-    if (attachment != "") {
+    if (attachment !== "") {
       // storage의 이미지 폴더 생성
       const attachmentRef = storageService
         .ref()
