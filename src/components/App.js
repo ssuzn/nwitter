@@ -14,7 +14,11 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true); // Log in 시 = user 받았을 떼
-        setUserObj(user); // 어딘가에 user 저장하여 사용
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        }); // 어딘가에 user 저장하여 사용
       } else {
         setIsLoggedIn(false);
       }
@@ -22,10 +26,26 @@ function App() {
     });
   }, []);
  
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  };
 
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Intializing..."}
+      {init ? (
+        <AppRouter 
+          refreshUser={refreshUser}
+          isLoggedIn={isLoggedIn} 
+          userObj={userObj} 
+        />
+        ) : (
+        "Intializing..."
+      )}
      
     </>
   );

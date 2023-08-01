@@ -2,7 +2,7 @@ import { authService, dbService } from "fbase";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-export default ({ userObj }) => { // 로그인한 유저 정보 prop으로 받기
+export default ({ refreshUser, userObj }) => { // 로그인한 유저 정보 prop으로 받기
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const onLogOutClick = () => {
@@ -37,6 +37,7 @@ export default ({ userObj }) => { // 로그인한 유저 정보 prop으로 받�
       await userObj.updateProfile({
         displayName: newDisplayName,
       });
+      refreshUser();
     }
   };
 
